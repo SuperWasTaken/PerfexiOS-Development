@@ -1,0 +1,10 @@
+SECTION-BOOT
+    KEY:BOOTMODE:GUI
+    KEY:INSTALLER:TRUE
+END
+SECTION-CONF
+    !C: Keyboard Layout
+    KEY:LAYOUT:US
+    !C: The GUI Start Delay by default is it 5 seconds
+    KEY:GSD:5000
+END

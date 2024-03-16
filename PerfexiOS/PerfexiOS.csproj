@@ -1,0 +1,69 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <!--<RuntimeIdentifier>cosmos</RuntimeIdentifier>-->
+        <Platform>cosmos</Platform>
+        <SupportsX86Intrinsics>false</SupportsX86Intrinsics>
+        <SelfContained>True</SelfContained>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <EnableGDB>False</EnableGDB>
+        <StartCosmosGDB>False</StartCosmosGDB>
+        <VisualStudioDebugPort>Pipe: Cosmos\Serial</VisualStudioDebugPort>
+        <CosmosDebugPort>Serial: COM1</CosmosDebugPort>
+        <Launch>ISO</Launch>
+        <Profile>VMware</Profile>
+        <Description>Use VMware Player or Workstation to deploy and debug.</Description>
+        <PxeInterface>192.168.0.8</PxeInterface>
+        <DebugEnabled>False</DebugEnabled>
+        <CompileVBEMultiboot>False</CompileVBEMultiboot>
+        <CompressionType>None</CompressionType>
+        <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+		
+    </PropertyGroup>
+
+    <ItemGroup>
+      <None Remove="Desktop\PerfexiAPI\Resources\LoadingFrame1.bmp" />
+      <None Remove="Desktop\PerfexiAPI\Resources\LoadingFrame2.bmp" />
+      <None Remove="Desktop\PerfexiAPI\Resources\LoadingFrame3.bmp" />
+      <None Remove="Desktop\PerfexiAPI\Resources\LoadingFrame4.bmp" />
+      <None Remove="Desktop\PerfexiAPI\Resources\Mouse.bmp" />
+      <None Remove="Desktop\PerfexiAPI\Resources\MouseCarret.bmp" />
+      <None Remove="Desktop\PerfexiAPI\Resources\MouseHResize.bmp" />
+      <None Remove="Desktop\PerfexiAPI\Resources\MouseMove.bmp" />
+      <None Remove="Desktop\PerfexiAPI\Resources\MouseSelect.bmp" />
+      <None Remove="Desktop\PerfexiAPI\Resources\MouseVResize.bmp" />
+      <None Remove="Desktop\PerfexiAPI\Resources\PerfexiOS.bmp" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="Desktop\PerfexiAPI\Resources\LoadingFrame1.bmp" />
+      <EmbeddedResource Include="Desktop\PerfexiAPI\Resources\LoadingFrame2.bmp" />
+      <EmbeddedResource Include="Desktop\PerfexiAPI\Resources\LoadingFrame3.bmp" />
+      <EmbeddedResource Include="Desktop\PerfexiAPI\Resources\LoadingFrame4.bmp" />
+      <EmbeddedResource Include="Desktop\PerfexiAPI\Resources\Mouse.bmp" />
+      <EmbeddedResource Include="Desktop\PerfexiAPI\Resources\MouseCarret.bmp" />
+      <EmbeddedResource Include="Desktop\PerfexiAPI\Resources\MouseHResize.bmp" />
+      <EmbeddedResource Include="Desktop\PerfexiAPI\Resources\MouseMove.bmp" />
+      <EmbeddedResource Include="Desktop\PerfexiAPI\Resources\MouseSelect.bmp" />
+      <EmbeddedResource Include="Desktop\PerfexiAPI\Resources\MouseVResize.bmp" />
+      <EmbeddedResource Include="Desktop\PerfexiAPI\Resources\PerfexiOS.bmp" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Cosmos.Build" Version="0-*" NoWarn="NU1604" />
+        <PackageReference Include="Cosmos.Debug.Kernel" Version="0-*" NoWarn="NU1604" />
+        <PackageReference Include="Cosmos.System2" Version="0-*" NoWarn="NU1604" />
+        <PackageReference Include="Cosmos.Plugs" Version="0-*" NoWarn="NU1604" />
+        <PackageReference Include="CosmosTTF" Version="4.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Data\PerfexiScript\" />
+      <Folder Include="isoFiles\PerfexiOS\UiConf\" />
+      <Folder Include="Shell\SystemTerminalAPPS\Diskpart\" />
+    </ItemGroup>
+
+</Project>

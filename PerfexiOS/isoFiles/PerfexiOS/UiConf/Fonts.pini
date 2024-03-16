@@ -1,0 +1,5 @@
+SECTION-FONTS
+    KEY:Arial:$R:PerfexiOS\UiAssets\Arial.ttf
+    KEY:ComicSans:$R:PerfexiOS\UiAssets\ComicSans.ttf
+    KEY:TimesNewRoman:$R:PerfexiOS\UiAssets\TimesNewRoman.ttf
+END
