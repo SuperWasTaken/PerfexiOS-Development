@@ -17,6 +17,7 @@ using System.Reflection;
 using System.Drawing;
 using Cosmos.System.FileSystem;
 using PerfexiOS.Desktop.PerfexiAPI.RichText;
+using Cosmos.System.Graphics.Fonts;
 
 namespace PerfexiOS.Desktop.PerfexiAPI
 {
@@ -52,16 +53,47 @@ namespace PerfexiOS.Desktop.PerfexiAPI
 
                 }
 				Globals.GUI = true;
-				Globals.Canvas = FullScreenCanvas.GetFullScreenCanvas();
-				Globals.Canvas.Clear(Color.White);
-				var wm = new WindowManager();
+				Globals.Canvas = FullScreenCanvas.GetFullScreenCanvas(new Mode (800,600,ColorDepth.ColorDepth32));
+				Globals.Canvas.Clear(Color.DodgerBlue);
+
+                Globals.Canvas.DrawFilledRectangle(Color.FromArgb(255, 217, 217, 217), 0, 560, 800, 40);
+                //Globals.Canvas.DrawImage(PrefixiLogo, 2, 562);
+                //Globals.Canvas.DrawImage(AppLogo, 200, 564);
+                //Globals.Canvas.DrawImage(AppLogo, 240, 564);
+                //Globals.Canvas.DrawImage(AppLogo, 280, 564);
+                //Globals.Canvas.DrawImage(AppLogo, 320, 564);
+                //Globals.Canvas.DrawImage(AppLogo, 360, 564);
+                //Globals.Canvas.DrawImage(AppLogo, 400, 564);
+                //Globals.Canvas.DrawImage(AppLogo, 440, 564);
+                Globals.Canvas.DrawString("10:00", PCScreenFont.Default, Color.FromArgb(0, 0, 0), 742, 569);
+                Globals.Canvas.DrawFilledRectangle(Color.FromArgb(255, 255, 255, 255), 45, 568, 148, 23);
+                Globals.Canvas.DrawRectangle(Color.FromArgb(255, 0, 0, 0), 45, 568, 148, 23);
+                Globals.Canvas.DrawString("talk to prefexi", PCScreenFont.Default, Color.FromArgb(0, 0, 0), 47, 569);
+                Globals.Canvas.DrawFilledRectangle(Color.FromArgb(255, 217, 217, 217), 561, 9, 230, 257);
+                Globals.Canvas.DrawRectangle(Color.FromArgb(255, 0, 0, 0), 561, 9, 230, 257);
+                Globals.Canvas.DrawString("prefexi stats", PCScreenFont.Default, Color.FromArgb(0, 0, 0), 563, 11);
+                Globals.Canvas.DrawString("Hunger", PCScreenFont.Default, Color.FromArgb(0, 0, 0), 574, 33);
+                Globals.Canvas.DrawString("Mood", PCScreenFont.Default, Color.FromArgb(0, 0, 0), 574, 98);
+                Globals.Canvas.DrawString("Fun", PCScreenFont.Default, Color.FromArgb(0, 0, 0), 575, 163);
+                Globals.Canvas.DrawFilledRectangle(Color.FromArgb(255, 255, 255, 255), 574, 55, 208, 43);
+                Globals.Canvas.DrawFilledRectangle(Color.FromArgb(255, 255, 255, 255), 574, 120, 208, 43);
+                Globals.Canvas.DrawFilledRectangle(Color.FromArgb(255, 255, 255, 255), 575, 185, 208, 43);
+                Globals.Canvas.DrawFilledRectangle(Color.FromArgb(255, 217, 217, 217), 2, 140, 360, 418);
+                Globals.Canvas.DrawString("prefexi beta ui.", PCScreenFont.Default, Color.FromArgb(255, 255, 255), 671, 514);
+                Globals.Canvas.DrawString("this ui is subject to change", PCScreenFont.Default, Color.FromArgb(255, 255, 255), 570, 536);
+                //Globals.Canvas.DrawImage(AppLogo, 242, 518);
+                //Globals.Canvas.DrawImage(AppLogo, 282, 518);
+                //Globals.Canvas.DrawImage(AppLogo, 322, 518);
+                Globals.Canvas.DrawFilledRectangle(Color.FromArgb(255, 255, 255, 255), 9, 152, 224, 400);
+
+                var wm = new WindowManager();
                 Widgets.Pointer.Initalise();
                 Globals.WM = wm;
                 ProcessManager.RegisterProcess(Globals.WM);
 				Globals.Canvas.Display();
 				Globals.WM.start();
 
-                var win = new Window(100, 100, 300, 400, "4", false);
+                var win = new Window(100, 100, 300, 400, "4", true);
                 win.Canvas.Clear(Color.White);
                 win.Canvas.DrawLine(10, 10, 100,120 , Color.Pink);
                 win.Canvas.DrawFilledCircle(Color.HotPink, 10, 100, 20);
@@ -73,11 +105,13 @@ namespace PerfexiOS.Desktop.PerfexiAPI
             {
                 System.Console.WriteLine(e.ToString());
             }
-           
-            
 
         }
-        
+
+        public static void Update()
+        {
+            
+        }
 
     }
 }
