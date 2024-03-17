@@ -25,6 +25,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <None Remove="Desktop\PerfexiAPI\Resources\Applogo.bmp" />
       <None Remove="Desktop\PerfexiAPI\Resources\LoadingFrame1.bmp" />
       <None Remove="Desktop\PerfexiAPI\Resources\LoadingFrame2.bmp" />
       <None Remove="Desktop\PerfexiAPI\Resources\LoadingFrame3.bmp" />
@@ -36,9 +37,11 @@
       <None Remove="Desktop\PerfexiAPI\Resources\MouseSelect.bmp" />
       <None Remove="Desktop\PerfexiAPI\Resources\MouseVResize.bmp" />
       <None Remove="Desktop\PerfexiAPI\Resources\PerfexiOS.bmp" />
+      <None Remove="Desktop\PerfexiAPI\Resources\prefixilogo.bmp" />
     </ItemGroup>
 
     <ItemGroup>
+      <EmbeddedResource Include="Desktop\PerfexiAPI\Resources\Applogo.bmp" />
       <EmbeddedResource Include="Desktop\PerfexiAPI\Resources\LoadingFrame1.bmp" />
       <EmbeddedResource Include="Desktop\PerfexiAPI\Resources\LoadingFrame2.bmp" />
       <EmbeddedResource Include="Desktop\PerfexiAPI\Resources\LoadingFrame3.bmp" />
@@ -50,6 +53,7 @@
       <EmbeddedResource Include="Desktop\PerfexiAPI\Resources\MouseSelect.bmp" />
       <EmbeddedResource Include="Desktop\PerfexiAPI\Resources\MouseVResize.bmp" />
       <EmbeddedResource Include="Desktop\PerfexiAPI\Resources\PerfexiOS.bmp" />
+      <EmbeddedResource Include="Desktop\PerfexiAPI\Resources\prefixilogo.bmp" />
     </ItemGroup>
 
     <ItemGroup>
