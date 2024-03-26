@@ -6,20 +6,12 @@ using System.Collections.Generic;
 
 namespace PerfexiOS.Desktop.PerfexiAPI.Widgets
 {
-	public abstract class Widget
+	public interface Widget
     {
-        public List<Widget> Children = new();
-        public Window RootWindow;
+        public List<Widget> Children { get; set; }
+        public Window RootWindow { get; set; } 
        
-        public int x, y;
-        
-        public Widget(Window RootWindow,int x,int y)
-        {
-            this.x = x;
-            this.y = y;
-          
-        }
-
+   
         public virtual void update()
         {
             foreach(var item in Children)
@@ -38,11 +30,31 @@ namespace PerfexiOS.Desktop.PerfexiAPI.Widgets
 
         public virtual void HandleKeyPressed() { }
 
+        /// <summary>
+        /// Called When the Mouse Enters the Widgets Boundry box
+        /// </summary>
+        public Signal<MouseArgs> OnMouseHover { get; set; }
 
-        public Signal<MouseArgs> OnMouseHover;
-        public Signal<MouseArgs> OnMouseLeave;
-        public Signal<MouseArgs> OnMouseDrag;
-        public Signal<MouseArgs> OnKeyTyped;
-        public Signal<MouseArgs> OnMouseClick;
+        /// <summary>
+        /// Calls when the Mouse Exits the Widgets Boundry box.
+        /// </summary>
+        /// 
+
+        public Signal<MouseArgs> OnMouseLeave { get; set; }
+        /// <summary>
+        /// Calls when the mouse moves inside the boundry box
+        /// </summary>
+        public Signal<MouseArgs> OnMouseDrag { get; set; }
+        /// <summary>
+        /// Calls when a key is pressed with keyboard activated widgets Ex: Textboxes.
+        /// </summary>
+        /// 
+
+        
+        public Signal<MouseArgs> OnKeyTyped { get; set; }
+        /// <summary>
+        /// Calls when the mouse is clicked inside the widgets boundry box 
+        /// </summary>
+        public Signal<MouseArgs> OnMouseClick { get; set; }
     }
 }

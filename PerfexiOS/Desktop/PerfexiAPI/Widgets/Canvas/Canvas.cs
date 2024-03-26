@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Runtime.Serialization;
@@ -8,6 +9,8 @@ using Cosmos.System;
 using Cosmos.System.Graphics;
 using Cosmos.System.Graphics.Fonts;
 using CosmosTTF;
+using PerfexiOS.Data;
+using PerfexiOS.Data.Signal;
 using PerfexiOS.Desktop.PerfexiAPI.RichText;
 using PerfexiOS.Desktop.PerfexiAPI.Widgets;
 using PerfexiOS.Desktop.PerfexiAPI.Windows;
@@ -41,16 +44,23 @@ namespace PerfexiOS.Desktop
         /// </summary>
         public bool Scalable { get; set; } = false;
         private Bitmap Viewport { get; set; }
+		public List<Widget> Children { get; set; } = new();
+		public Window RootWindow { get; set; }
+		public Signal<MouseArgs> OnMouseHover { get; set; } = new();
+		public Signal<MouseArgs> OnMouseLeave { get; set; } = new();
+		public Signal<MouseArgs> OnMouseDrag { get; set; } = new();
+		public Signal<MouseArgs> OnKeyTyped { get; set; } = new();
+		public Signal<MouseArgs> OnMouseClick { get; set; } = new();
 
-        private TextSurface TextWriter;
+		private TextSurface TextWriter;
 
-        public Pannel(Window parent,int x,int y,int w,int h) : base(parent,x,y)
+        public Pannel(Window parent,int x,int y,int w,int h) 
         {
             this.x = x;
             this.y = y;
             this.w = w; 
             this.h = h;
-
+            this.RootWindow = parent;
             Buffer = new((uint)w, (uint)h, ColorDepth.ColorDepth32);
             TextWriter = new(this,x,y,w,h);
             Clear(Color.White);
@@ -209,7 +219,11 @@ namespace PerfexiOS.Desktop
                 }
             }
         }
-
+        public void DrawStringTTF(int x,int y,string text,string font,int size,Color Color)
+        {
+            var f = FontManager.GetFont(font);
+            f.DrawToSurface(TextWriter, size, x, y + size, text, Color);
+        }
 		public void DrawCircle(Color color, int xCenter, int yCenter, int radius)
 		{
 			
@@ -272,22 +286,26 @@ namespace PerfexiOS.Desktop
 				}
 			}
 		}
-		public void DrawBitmap(Bitmap bmp,int x,int y)
+		public void DrawBitmap(Bitmap img,int x,int y)
         {
-            var data = bmp.RawData;
-            for(int i = 0; i < bmp.Height; i++)
-            {
-                for(int ii = 0; ii < bmp.Width; i++)
-                {
-                    var pixel = data[(i * Buffer.Width) + ii];
-                    Plot(Color.FromArgb(pixel), ii+y, i+x);
-                }
-            }
-        }
-        public override void render()
+        
+
+			for (int X = 0; X < img.Width; X++)
+			{
+				for (int Y = 0; Y < img.Height; Y++)
+				{
+					var c = Color.FromArgb(img.RawData[X + Y * img.Width]);
+					if (c.A > 0)
+					{
+						Plot(c, X + x, Y + y);
+					}
+				}
+			}
+		}
+        public void render()
         {
             
-            Globals.Canvas.DrawImage(Buffer,x,y);
+            Globals.Canvas.DrawImageAlpha(Buffer,x,y);
         }
 
         /// <summary>
@@ -317,7 +335,7 @@ namespace PerfexiOS.Desktop
                 {
                     
                     var pixel = GetPointFromBitmap(bmp,x+ii,y+i);
-                    area.RawData[(i * area.Width) + ii] = pixel; 
+                    area.RawData[i * area.Width + ii] = pixel; 
 
 
 
@@ -335,7 +353,7 @@ namespace PerfexiOS.Desktop
         /// <returns></returns>
         public static int GetPointFromBitmap(Bitmap bmp,uint x,uint y)
         {
-            return bmp.RawData[(y * bmp.Width) + x];
+            return bmp.RawData[y * bmp.Width + x];
 
 		}
 

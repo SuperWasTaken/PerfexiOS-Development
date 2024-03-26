@@ -10,8 +10,8 @@ namespace PerfexiOS.Desktop.PerfexiAPI.Widgets
 {
 	public class TextSurface : ITTFSurface
 	{
-		
-		public Pannel Parent { get; init; }
+
+		public Pannel Parent;
 
 		public int x,y,width,height;
 		public TextSurface(Pannel Parent,int x,int y,int w,int h)

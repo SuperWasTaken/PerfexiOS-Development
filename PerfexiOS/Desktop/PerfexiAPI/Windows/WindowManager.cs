@@ -46,21 +46,9 @@ namespace PerfexiOS.Desktop.PerfexiAPI.Windows
 
 		public override void loop()
 		{
+            update();
             Render();
-            if(MouseManager.MouseState == MouseState.Left)
-            {
-                var win = new Window(300, 300, 400, 400, "HelloWorld", false);
-               
-				win.Canvas.Clear(Color.White);
-				win.Canvas.DrawLine(10, 10, 100, 120, Color.Pink);
-				win.Canvas.DrawFilledCircle(Color.HotPink, 10, 100, 20);
-				win.Canvas.DrawString(150, 90, "Default", "Hello!", 20, Color.White);
-				windows.Add(win);
-                win.Render();
-
-
-                
-            }
+         
 		}
 		public void Prioritise(Window win)
         {
@@ -83,6 +71,14 @@ namespace PerfexiOS.Desktop.PerfexiAPI.Windows
         public void AppendWindow(Window win)
         {
             windows.Add(win);
+        }
+
+        public void update()
+        {
+            foreach(var item in windows)
+            {
+                item.Update();
+            }
         }
         /// <summary>
         /// This changes the MAIN window of the application if you

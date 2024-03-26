@@ -50,6 +50,7 @@ namespace PerfexiOS.Desktop.PerfexiAPI.Windows
 
         public virtual void Update()
         {
+            Titlebar.Update();
             foreach(var item in Widgets)
             {
                 item.update();

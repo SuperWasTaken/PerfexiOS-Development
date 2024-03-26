@@ -13,8 +13,7 @@ namespace PerfexiOS.Shell.Commands.Topics
     {
         public StartGUI() : base("StartGUI", "Starts GUI while in Terminal Mode")
         {
-        }
-        public override string[] Execute(commandManager parent, string[] args)
+        }        public override string[] Execute(commandManager parent, string[] args)
         {
             if(Globals.Conf != null)
             {

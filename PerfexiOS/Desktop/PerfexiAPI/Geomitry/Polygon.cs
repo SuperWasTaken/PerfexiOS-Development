@@ -9,7 +9,17 @@ namespace PerfexiOS.Desktop.PerfexiAPI.Collision
 	{
 		public List<Point> points = new();
 
-
+		public static Polygon MakeRectangle(int x1,int y1,int x2,int y2)
+		{
+			var p = new Polygon();
+			var dx = x2 - x1;
+			var dy = y2 - y1;
+			p.AddVerticy(new(x1,y1));
+			p.AddVerticy(new(x2,y1));
+			p.AddVerticy(new(x2, y2));
+			p.AddVerticy(new(x1 , y2));
+			return p;
+		}
 
 		
 		public void RemoveVerticy(int x, int y)

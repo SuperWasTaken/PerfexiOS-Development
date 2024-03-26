@@ -51,6 +51,36 @@ namespace PerfexiOS.Data.PINI
 				var fs = new CosmosVFS();
 				VFSManager.RegisterVFS(fs);
 				System.Console.WriteLine("Filesystem Initalised...");
+                try
+                {
+					System.Console.WriteLine("Initalising SATA Disks and Mounting them...");
+					Globals.SataDriver = new();
+					Globals.SataDriver.Init();
+					foreach (var item in SATA.Devices)
+					{
+						try
+						{
+							var d = new Disk(item);
+							d.Mount();
+							VFSManager.GetDisks().Add(d);
+
+						}
+						catch (Exception e)
+						{
+							System.Console.ForegroundColor = ConsoleColor.Yellow;
+							System.Console.WriteLine(@$"Warning Sata Drive Failed to mount proporly{e.Message}");
+							System.Console.ForegroundColor = ConsoleColor.White;
+						}
+
+					}
+				}
+                catch(Exception e)
+                {
+                    System.Console.ForegroundColor = ConsoleColor.Red;
+                    System.Console.WriteLine($"Sata Initalisation Failed:{e.Message}");
+                    System.Console.ForegroundColor = ConsoleColor.White;
+                }
+               
                 System.Console.WriteLine("Looking For System Drive...");
                 var partitons = VFSManager.GetVolumes();
                     
@@ -67,6 +97,8 @@ namespace PerfexiOS.Data.PINI
                         break;
 					}
                 }
+               
+                
                 if (!foundrootdrive)
                 {
                     System.Console.WriteLine("Failed to find Root Drive... Gui has been disabled\n due to the innability to acess Sys.pini");

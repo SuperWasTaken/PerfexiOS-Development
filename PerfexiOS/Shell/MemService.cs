@@ -19,7 +19,8 @@ namespace PerfexiOS.Shell
                 Heap.Collect();
                 
             }
-           
+
+            ticks++;
         }
         
 

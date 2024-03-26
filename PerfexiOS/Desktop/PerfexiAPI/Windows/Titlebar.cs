@@ -1,5 +1,7 @@
-﻿using Cosmos.Core_Plugs.System;
+﻿using Cosmos.Core.Memory;
+using Cosmos.Core_Plugs.System;
 using Cosmos.System;
+using Cosmos.System.Graphics.Fonts;
 using CosmosTTF;
 using PerfexiOS.Data;
 using PerfexiOS.Data.Signal;
@@ -9,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,13 +21,14 @@ namespace PerfexiOS.Desktop.PerfexiAPI.Windows
     {
         Window parent;
         private bool MouseEntered = false;
-       
+        public Polygon Collsion;
         public Titlebar(Window parent) 
         {
             this.parent = parent;
             OnMouseEnter.Bind(HandleMouseEnter);
             OnCLicked.Bind(HandleMouseInput);
             OnMouseEnter.Bind(HandleMouseEnter);
+            Collsion = Polygon.MakeRectangle(parent.x, parent.y - 32, parent.x + parent.w, parent.y);
         }
 
         /// <summary>
@@ -34,8 +38,9 @@ namespace PerfexiOS.Desktop.PerfexiAPI.Windows
         /// </summary>
         public virtual void Draw()
         {
+            
             Globals.Canvas.DrawFilledRectangle(Color.Blue, parent.x, parent.y - 32, parent.w, 32);
-           
+            Globals.Canvas.DrawString(parent.title, PCScreenFont.Default, Color.Black, parent.x+10, parent.y-16);           
         }
         /// <summary>
         ///
@@ -43,8 +48,7 @@ namespace PerfexiOS.Desktop.PerfexiAPI.Windows
         public virtual void Update()
         {
             #region MouseCollision
-            // Store a instance of MouseArgs and Check if the mouse is colliding and store them in values
-            
+            if(Pointer.Collision.Colliding(Collsion)) { if (MouseManager.MouseState == MouseState.Left) { Drag(); } }
             #endregion
         }
         public void HandleMouseInput(SignalArgs args)
@@ -55,9 +59,11 @@ namespace PerfexiOS.Desktop.PerfexiAPI.Windows
 
         public void Drag()
         {
-            parent.x += MouseManager.DeltaX;
-            parent.y += MouseManager.DeltaY;
-        }
+            parent.x = (int)MouseManager.X;
+            parent.y =(int) MouseManager.Y;
+			Collsion = Polygon.MakeRectangle(parent.x, parent.y - 32, parent.x + parent.w, parent.y);
+            Heap.Collect();
+		}
 
         public void HandleMouseEnter(MouseArgs args)
         {

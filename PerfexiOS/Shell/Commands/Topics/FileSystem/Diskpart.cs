@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using COROS;
+using Cosmos.HAL.BlockDevice.Ports;
 namespace PerfexiOS.Shell.Commands.Topics.FileSystem
 {
 	public class Diskpart : Command
@@ -214,9 +215,7 @@ namespace PerfexiOS.Shell.Commands.Topics.FileSystem
 			d.Clear();
 			return new string[] { $"Cleared all paritions on disk {disk}" };
 		}
-
-
-
+	
 		
 	}
 }
