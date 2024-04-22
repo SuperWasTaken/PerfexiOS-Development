@@ -1,4 +1,6 @@
 ﻿using Cosmos.Core.Memory;
+using PerfexiOS.Shell.TaskManager;
+using PINI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,23 +9,38 @@ using System.Threading.Tasks;
 
 namespace PerfexiOS.Shell
 {
-    public static class Memservice
+    /// <summary>
+    /// This Collects the heap with a slight delay for Performance 
+    /// </summary>
+    public  class Memservice : process
     {
-        private static int ticks = 0;
+       
+        public int ticks = 0;
 
-        public static void Tick()
+		public Memservice() : base("MemService")
         {
-            if(ticks >=  5)
+
+        }
+		public override void loop()
+		{
+			try
+            {
+                Tick();
+            }
+            catch (Exception ex)
+            {
+                Kernel.Crash(ex);
+            }
+		}
+		private void Tick()
+        {
+            ticks++;
+            if(ticks >= 20)
             {
                 ticks = 0;
                 Heap.Collect();
-                
             }
-
-            ticks++;
         }
-        
-
        
     }
 }

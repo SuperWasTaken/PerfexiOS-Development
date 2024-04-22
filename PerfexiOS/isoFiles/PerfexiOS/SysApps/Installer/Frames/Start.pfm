@@ -1,0 +1,58 @@
+﻿!C: Main Installer StartScreen 
+METADATA
+	!C: This contains the metadata for the RootWindow
+	WIDTH:600px
+	HEIGHT:600px
+	STARTX:auto
+	STARTY:auto
+	DefaultFont:ComicSans 
+	DefaultFontSize:18
+	FontColor:Black
+	BackgroundColor:LightBlue 
+END
+LIBIMPORT 
+	!C: Import installed libraries here 
+	GIVE PerfexiSys
+	GIVE Torch
+	GIVE PerfexiAPIWidgets
+	GIVE PerfexiScript 
+END
+MAIN
+	!C: Main Code Goes here 
+	CONTAINER-MAIN 
+		METADATA 
+			Fullarea:Cover
+			Startx:0
+			Starty:0
+			VTB:FALSE
+			HTB:TRUE
+		END
+		DRAW
+			!C: Here put your draw functions here This runs first before widgets are rendered 
+			FCIRCLE(White,0,0,40)
+			TEXT(White,Aligncalc(Top,Center),"Hello!")
+			TEXTSTYLE = ("ComicSans",12,Black)
+		END
+		CONTAINER-BUTTONS 
+			METADATA 
+				Fullarea = PaddingCalc(15px)
+			END 
+			BUTTON-INSTALLNOW
+				STYLE:Standard 
+				TEXT:"InstallNOW!"
+				ONCLICK = CALL("Start.psc",BeginInstalation())
+			END
+			BUTTON-SHUTDOWN 
+				STYLE:Standard 
+				TEXT:"Shutdown"
+				ONCLICK = CALL("Sysmethods",Shutdown())
+			END
+		END
+		TORCH-HELLO
+			// Torchscript goes here 
+		END
+		PINI-MAIN 
+			!C: Pini code goes here 
+		END
+	END
+END

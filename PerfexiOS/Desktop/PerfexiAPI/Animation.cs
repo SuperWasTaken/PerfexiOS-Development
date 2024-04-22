@@ -1,28 +1,29 @@
 ﻿using Cosmos.System.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PerfexiOS.Desktop.PerfexiAPI
 {
 	public class Animation
 	{
-		public List<Bitmap> Frames { get; set; }
+		public Bitmap[] Frames { get; set; }
 		public int Fps { get; set; }
 		private DateTime Updatetime;
 		public Bitmap CurrentFrame;
 		private int currentframeidex;
 		private int FrameDelay;
+		public int x, y;
 		public bool loop { get; set; }
-
+		Pannel Parent;
 		public bool playing { get; set; } = true;
-		public Animation(List<Bitmap> Frames,int FPS,bool loop)
+		public Animation(Pannel parent,int x,int y,int w,int h,Bitmap[] Frames,int FPS,bool loop)
 		{
 			this.Frames = Frames;
 			this.Fps = FPS;
 			this.loop = loop;
+			this.x = x;
+			this.y = y;
+			
 			
 		}
 
@@ -33,6 +34,7 @@ namespace PerfexiOS.Desktop.PerfexiAPI
 		}
 		private void Update()
 		{
+			if(!playing) { return; }
 			FrameDelay = FPS.Fps / Fps;
 			Updatetime = DateTime.Now.AddMilliseconds(FrameDelay * 1000);
 			UpdateFrame();
@@ -45,7 +47,7 @@ namespace PerfexiOS.Desktop.PerfexiAPI
 			CurrentFrame = Frames[currentframeidex];
 			if(Updatetime >= DateTime.Now)
 			{
-				if(currentframeidex+1 > Frames.Count) 
+				if(currentframeidex+1 > Frames.Length) 
 				{ 
 					currentframeidex = 0; 
 					if(!loop) { return; }
@@ -60,6 +62,10 @@ namespace PerfexiOS.Desktop.PerfexiAPI
 				}
 				
 			}
+		}
+		public void Draw()
+		{
+			Parent.DrawBitmap(CurrentFrame, x, y);
 		}
 		public void Stop()
 		{

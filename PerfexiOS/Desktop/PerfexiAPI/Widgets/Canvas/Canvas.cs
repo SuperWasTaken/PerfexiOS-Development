@@ -11,6 +11,7 @@ using Cosmos.System.Graphics.Fonts;
 using CosmosTTF;
 using PerfexiOS.Data;
 using PerfexiOS.Data.Signal;
+using PerfexiOS.Desktop.Extensions;
 using PerfexiOS.Desktop.PerfexiAPI.RichText;
 using PerfexiOS.Desktop.PerfexiAPI.Widgets;
 using PerfexiOS.Desktop.PerfexiAPI.Windows;
@@ -32,7 +33,7 @@ namespace PerfexiOS.Desktop
         /// </summary>
         public int x, y, w, h;
         
-        
+
         private Bitmap Buffer;
 
         public uint Hviewport { get; set; } = 0;
@@ -51,9 +52,19 @@ namespace PerfexiOS.Desktop
 		public Signal<MouseArgs> OnMouseDrag { get; set; } = new();
 		public Signal<MouseArgs> OnKeyTyped { get; set; } = new();
 		public Signal<MouseArgs> OnMouseClick { get; set; } = new();
+		Signal<KeyboardArgs> Widget.OnKeyTyped { get; set; }
+
+        public Rectangle Mask { get; set; }
+        public bool MouseEntered { get; set; } = false;
 
 		private TextSurface TextWriter;
 
+
+        /// <summary>
+        /// This is the Buffer that is drawn too
+        /// It is then copied to the main buffer 
+        /// </summary>
+        private Bitmap SecondBuffer;
         public Pannel(Window parent,int x,int y,int w,int h) 
         {
             this.x = x;
@@ -62,6 +73,7 @@ namespace PerfexiOS.Desktop
             this.h = h;
             this.RootWindow = parent;
             Buffer = new((uint)w, (uint)h, ColorDepth.ColorDepth32);
+            SecondBuffer = Buffer;
             TextWriter = new(this,x,y,w,h);
             Clear(Color.White);
         }
@@ -106,12 +118,14 @@ namespace PerfexiOS.Desktop
 
                 // Create the new buffer with the new size; 
                 Buffer = new(Cache.Width + (uint)xfactor, Cache.Height +(uint)yfactor, ColorDepth.ColorDepth32);
+                SecondBuffer = Buffer;
                 // Draw the pixels from the Cache to the new Buffer 
                 DrawBitmap(Cache, 0, 0);
                 
             }
             
-            Buffer.RawData[(y*Buffer.Width)+x] = color.ToArgb();
+            SecondBuffer.RawData[(y*Buffer.Width)+x] = color.ToArgb();
+            
         }
         /// <summary>
         /// Draw a Bitmap Image in a certain area of the Buffer this Method Utilises the AreaPlot() Method
@@ -145,6 +159,7 @@ namespace PerfexiOS.Desktop
             for(int i = 0; i < Buffer.RawData.Length; i++)
             {
                 Buffer.RawData[i] = color.ToArgb();
+                SecondBuffer = Buffer;
             }
         }
         /// <summary>
@@ -153,6 +168,7 @@ namespace PerfexiOS.Desktop
         public void ResetBuffer(Color color)
         {
             Buffer = new(Viewport.Width, Viewport.Height, ColorDepth.ColorDepth32);
+            SecondBuffer = new(Buffer.Width, Buffer.Height,ColorDepth.ColorDepth32);
 			Clear(color);
 		}
 
@@ -304,8 +320,9 @@ namespace PerfexiOS.Desktop
 		}
         public void render()
         {
-            
-            Globals.Canvas.DrawImageAlpha(Buffer,x,y);
+
+            Globals.Canvas.DrawImageA(Buffer, x, y);
+            Buffer = SecondBuffer;
         }
 
         /// <summary>
@@ -356,7 +373,65 @@ namespace PerfexiOS.Desktop
             return bmp.RawData[y * bmp.Width + x];
 
 		}
+		public  void DrawRectangle(Color color, int x, int y, int width, int height)
+		{
+			/*
+             * we must draw four lines connecting any vertex of our rectangle to do this we first obtain the position of these
+             * vertex (we call these vertexes A, B, C, D as for geometric convention)
+             */
 
-    }
-  
+			/* The check of the validity of x and y are done in DrawLine() */
+
+			/* The vertex A is where x,y are */
+			int xa = x;
+			int ya = y;
+
+			/* The vertex B has the same y coordinate of A but x is moved of width pixels */
+			int xb = x + width;
+			int yb = y;
+
+			/* The vertex C has the same x coordiate of A but this time is y that is moved of height pixels */
+			int xc = x;
+			int yc = y + height;
+
+			/* The Vertex D has x moved of width pixels and y moved of height pixels */
+			int xd = x + width;
+			int yd = y + height;
+
+			/* Draw a line betwen A and B */
+			DrawLine( xa, ya, xb, yb,color);
+
+			/* Draw a line between A and C */
+			DrawLine( xa, ya, xc, yc, color);
+
+			/* Draw a line between B and D */
+			DrawLine( xb, yb, xd, yd, color);
+
+			/* Draw a line between C and D */
+			DrawLine( xc, yc, xd, yd, color);
+		}
+
+		/// <summary>
+		/// Draws a filled rectangle.
+		/// </summary>
+		/// <param name="color">The color to draw the rectangle with.</param>
+		/// <param name="xStart">The starting point X coordinate.</param>
+		/// <param name="yStart">The starting point Y coordinate.</param>
+		/// <param name="width">The width of the rectangle.</param>
+		/// <param name="height">The height of the rectangle.</param>
+		public  void DrawFilledRectangle(Color color, int xStart, int yStart, int width, int height)
+		{
+			if (height == -1)
+			{
+				height = width;
+			}
+
+			for (int y = yStart; y < yStart + height; y++)
+			{
+				DrawLine( xStart, y, xStart + width - 1, y, color);
+			}
+		}
+
+	}
+
 }

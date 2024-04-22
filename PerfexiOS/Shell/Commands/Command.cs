@@ -13,6 +13,8 @@ namespace PerfexiOS.Shell.Commands
         public string name { get; set; }
         public string description { get; set; }
 
+
+
         public Command(string name, string description) : base(name)
         {
             this.name = name;
@@ -26,6 +28,7 @@ namespace PerfexiOS.Shell.Commands
         }
 
         
-       
-    }
+
+		
+	}
 }

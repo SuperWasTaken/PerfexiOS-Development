@@ -1,6 +1,7 @@
 ﻿using Cosmos.HAL;
 using Cosmos.System;
 using PerfexiOS.Data;
+using PerfexiOS.Desktop.PerfexiAPI.Windows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,13 +13,20 @@ namespace PerfexiOS.Shell.TaskManager
 {
     public class process
     {
-        public int id ; 
+        public int id; 
         public string name; 
-        public string description;
-        public List<process> Instances;
         public DateTime created = DateTime.Now;
 
-        public enum state
+     
+
+		public enum ProcessType
+        {
+            Shell=0, 
+            Lib=1, 
+            Application=2,
+        }
+
+		public enum state
         {
             Starting,
             Running,
@@ -31,6 +39,8 @@ namespace PerfexiOS.Shell.TaskManager
         public process(string name)
         {
             this.name = name;
+            this.id = ProcessManager.nextprocessid;
+            ProcessManager.RegisterProcess(this);
         }
 
         /// <summary>
@@ -49,8 +59,9 @@ namespace PerfexiOS.Shell.TaskManager
 
         public virtual void loop()
         {
-            
         }
+
+        
         /// <summary>
         /// The stopping function of the application
         /// This will stop the application and then it will be eventualy sweapt away by the task
@@ -71,9 +82,5 @@ namespace PerfexiOS.Shell.TaskManager
         {
             State = state.Halt;
         }
-
-
-
-        public Signal<KeyboardArgs> OnKeyboardInput;
     }
 }

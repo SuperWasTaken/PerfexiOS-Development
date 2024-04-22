@@ -13,7 +13,7 @@
         <StartCosmosGDB>False</StartCosmosGDB>
         <VisualStudioDebugPort>Pipe: Cosmos\Serial</VisualStudioDebugPort>
         <CosmosDebugPort>Serial: COM1</CosmosDebugPort>
-        <Launch>ISO</Launch>
+        <Launch>VMware</Launch>
         <Profile>VMware</Profile>
         <Description>Use VMware Player or Workstation to deploy and debug.</Description>
         <PxeInterface>192.168.0.8</PxeInterface>
@@ -66,15 +66,6 @@
 
     <ItemGroup>
       <Folder Include="Data\PerfexiScript\" />
-      <Folder Include="Desktop\PerfexiAPI\Languages\PerfexiAnimation\" />
-      <Folder Include="Desktop\PerfexiAPI\Languages\PerfexiFrame\BlockTypes\" />
-      <Folder Include="Desktop\PerfexiAPI\Languages\PerfexiFrame\Tokens\" />
-      <Folder Include="Desktop\PerfexiAPI\Languages\PerfexiScript\Lexar\" />
-      <Folder Include="Desktop\PerfexiAPI\Languages\PerfexiScript\Tokens\" />
-      <Folder Include="Desktop\PerfexiAPI\Languages\Pex\" />
-      <Folder Include="Desktop\PerfexiAPI\Languages\TorchScript\" />
-      <Folder Include="isoFiles\PerfexiOS\SysApps\Installer\Widgets\" />
-      <Folder Include="isoFiles\PerfexiOS\SysApps\Installer\Scripts\" />
       <Folder Include="isoFiles\PerfexiOS\UiConf\" />
       <Folder Include="Shell\SystemTerminalAPPS\Diskpart\" />
     </ItemGroup>

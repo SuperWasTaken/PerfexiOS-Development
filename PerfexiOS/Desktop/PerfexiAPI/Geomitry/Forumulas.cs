@@ -20,6 +20,11 @@ namespace PerfexiOS.Desktop.PerfexiAPI.Geomitry
 			return p2.X - p1.X / p2.Y - p1.Y;
 		}
 
+	    public static bool RectRect(Rectangle r1,Rectangle r2)
+		{
+			return r1.IntersectsWith(r2);
+		}
+
 
 		/// <summary>
 		/// Yoinked this function from https://www.jeffreythompson.org/collision-detection/poly-poly.php

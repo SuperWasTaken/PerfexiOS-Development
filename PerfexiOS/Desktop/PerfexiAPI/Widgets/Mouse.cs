@@ -1,90 +1,119 @@
 ﻿using Cosmos.System;
 using Cosmos.System.Graphics;
-using PerfexiOS.Desktop.PerfexiAPI.Collision;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using PerfexiOS.Desktop.Extensions;
+using Cosmos.Core;
+using CosmosTTF;
 namespace PerfexiOS.Desktop.PerfexiAPI.Widgets
 {
 	public static class Pointer
 	{
-		public static Bitmap Mouse_Normal { get; set; } = resources.Mouse;
-		public static Bitmap Mouse_Press { get; set; } = resources.MouseSelect;
-
-		public static Bitmap Mouse_Move { get; set; } = resources.MouseMove;
-
-		public static Bitmap Mouse_HResize { get; set; } = resources.HMouseResize;
-
-		public static Bitmap Mouse_VResize { get; set;} = resources.VMouseResize;
-
-		public static Bitmap Mouse_Carret { get; set; } = resources.MouseCarret;
+		/// <summary>
+		/// This setting will change how the pointer is drawn being a simple rectangle instead of 
+		/// A Bitmap image for Perforamce as less math has to be done to draw a rectangle over a bitmap pointer
+		/// </summary>
+		public static bool SimplePointer { get; set; } = true;
+		public static int PointerSize { get; set; } = 12;
 
 
+		public static char Mouse_Normal = 'w';
 
+		public static char Clickable = 'O';
+		public static char Move = 'p';
+		public static char HScale = 'W';
+		public static char VScale = 'n';
+		public static char Carret = 'o';
+		public static char MiddleFinger = 'b';
+		public static char Peace_Sign = 'F';
 		public enum UiMouseStates
 		{
-			Normal,
-			Clickable,
-			Move,
-			HScale,
-			VScale, 
-			Carret,
-
+	
+			Normal = 'w',
+			Clickable = 'O',
+			Move = 'p',
+			HScale = 'W',
+			VScale = 'n', 
+			Carret = 'o',
+			MiddleFinger = 'b',
+			Peace_Sign = 'F',
 		}
 
-		public static Polygon Collision;
+
 		
 		public static UiMouseStates State { get; set; } = UiMouseStates.Normal;
+
+
+		public static Point GetLocation()
+		{
+			return new Point((int)MouseManager.X, (int)MouseManager.Y);
+		
+		}
 		public static void Initalise()
 		{
 			MouseManager.ScreenWidth = Globals.Canvas.Mode.Width;
 			MouseManager.ScreenHeight = Globals.Canvas.Mode.Height;
-			Collision = new();
-			var mx = (int)MouseManager.X;
-			var my = (int)MouseManager.Y;
-			Collision.AddVerticy(new(mx,my));
-			Collision.AddVerticy(new(mx, my + 4));
-			Collision.AddVerticy(new(mx+4,my+4));
+			
 		}
 		public static void Render()
 		{
-			// Update the Pointers Collision Mask
-			var x = (int)MouseManager.X;
-			var y = (int)MouseManager.Y;
-			Collision.points[0] = new(x, y);
-			Collision.points[1] = new(x, y + 4);
-			Collision.points[2] = new(x + 4, y + 4);
-			switch (State)
+			if(SimplePointer)
+			{
+				switch(State)
+				{
+					case UiMouseStates.Normal:
+						Globals.Canvas.DrawFilledRectangle(Color.Black, (int)MouseManager.X, (int)MouseManager.Y, 16, 16);
+						break;
+					case UiMouseStates.Clickable:
+						Globals.Canvas.DrawFilledRectangle(Color.Green, (int)MouseManager.X, (int)MouseManager.Y, 16, 16);
+						break;
+					case UiMouseStates.Carret:
+						Globals.Canvas.DrawFilledRectangle(Color.Black, (int)MouseManager.X, (int)MouseManager.Y, 4, 16);
+						break;
+					default:
+						Globals.Canvas.DrawFilledRectangle(Color.Black, (int)MouseManager.X, (int)MouseManager.Y, 16, 16);
+						break;
+				}
+				return;
+			}
+			char drawchar;
+			switch(State)
 			{
 				case UiMouseStates.Normal:
-					Globals.Canvas.DrawPolygon(Color.Black, Collision.points.ToArray());
+					drawchar = Mouse_Normal;
 					break;
 				case UiMouseStates.Clickable:
-					Globals.Canvas.DrawPolygon(Color.Green, Collision.points.ToArray());
+					drawchar = Clickable;
 					break;
 				case UiMouseStates.Move:
-					Globals.Canvas.DrawImage(Mouse_Move,x,y);
-					break;
-				case UiMouseStates.VScale:
-					Globals.Canvas.DrawImage(Mouse_VResize, x, y);
+					drawchar = Move;
 					break;
 				case UiMouseStates.HScale:
-					Globals.Canvas.DrawImage(Mouse_HResize, x, y);
+					drawchar = HScale;
+					break;
+				case UiMouseStates.VScale:
+					drawchar = VScale;
 					break;
 				case UiMouseStates.Carret:
-					Globals.Canvas.DrawImage(Mouse_Carret, x, y);
+					drawchar = Carret;
+					break;
+				case UiMouseStates.Peace_Sign:
+					drawchar = Peace_Sign;
+					break;
+				case UiMouseStates.MiddleFinger:
+					drawchar = MiddleFinger;
+					break;
+				default:
+					drawchar = Mouse_Normal;
 					break;
 			}
-
-			
-
+			Globals.PointerFont.DrawToSurface(Globals.CGSSurface, PointerSize, (int)MouseManager.X, (int)MouseManager.Y, drawchar.ToString(), Color.Black); 
 		}
-
-
-
 
 	}
 }

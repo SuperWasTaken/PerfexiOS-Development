@@ -10,9 +10,18 @@ namespace PerfexiOS.Desktop.Extensions
 {
     public static class CanvasFix
     {
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="canv"></param>
+        /// <param name="img"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         public static void DrawImageA(this Canvas canv,Image img,int x,int y)
         {
+            // Updated uses Memeory Operations instead for FASTER drawing 
+
+
 
             for (int X = 0; X < img.Width; X++)
             {
@@ -25,8 +34,11 @@ namespace PerfexiOS.Desktop.Extensions
                     }
                 }
             }
-
+            
+            
         }
 
+       
+        
     }
 }

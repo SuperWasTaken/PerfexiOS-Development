@@ -76,7 +76,7 @@ namespace PerfexiOS.Shell.Commands.Topics.FileSystem
 			{
 				return new string[] { e.Message };
 			}
-			return new string[] { "Syntax Error" };
+			
 		}
 
 		private string[] ls()
@@ -166,13 +166,14 @@ namespace PerfexiOS.Shell.Commands.Topics.FileSystem
 			}
 		}
 
-		public string[] mkfs(int disk,int partition,bool quick)
+		public string[] mkfs(int disk,int partition,bool quick,string format = "FAT32")
 		{
 			var disks = VFSManager.GetDisks();
 			try
 			{
+
 				var d = disks[disk];
-				d.FormatPartition(partition, "FAT32", quick);
+				d.FormatPartition(partition, format, quick);
 			}
 			catch(Exception e)
 			{

@@ -23,35 +23,27 @@ using PerfexiOS.Desktop.Extensions;
 using Cosmos.Core.Memory;
 using PerfexiOS.Desktop.Applications;
 using System.Security.Cryptography;
+using PerfexiOS.Shell;
+using System.IO.Compression;
 
 namespace PerfexiOS.Desktop.PerfexiAPI
 {
-    public  static class GUI 
+    public static class GUI 
     {
-
-        [ManifestResourceStream(ResourceName = "PerfexiOS.Desktop.PerfexiAPI.Resources.prefixilogo.bmp")]
-        static byte[] _PrefixiLogo;
-        static Bitmap PrefixiLogo = new Bitmap(_PrefixiLogo);
-        [ManifestResourceStream(ResourceName = "PerfexiOS.Desktop.PerfexiAPI.Resources.Applogo.bmp")]
-        static byte[] _AppLogo;
-        static Bitmap AppLogo = new Bitmap(_AppLogo);
-        static bool IsStartOpen = false;
-        static MouseState PrevMState = MouseState.None;
-
+       
         public static void Initalise()
         {
             try
             {
                 
-                
+               
                 System.Console.WriteLine("Starting the GUI");
-                System.Console.WriteLine("Registering Default font...");
+                System.Console.WriteLine("Registering System Fonts...");
                 Globals.DefaultFont = new(File.ReadAllBytes($@"{Globals.RootPath}PerfexiOS\Default.ttf"));
-
-				
+                // Globals.PointerFont = new(File.ReadAllBytes($@"{Globals.RootPath}PerfexiOS\Cursors.ttf"));
+                
                 System.Console.WriteLine("Registering Installed Fonts...");
                
-
                 PiniReader FontRegisty = new(new pini($@"{Globals.RootPath}PerfexiOS\UiConf\Fonts.pini"));
                 foreach (var item in FontRegisty.GetSection("/FONTS/").keys)
                 {
@@ -65,30 +57,25 @@ namespace PerfexiOS.Desktop.PerfexiAPI
                     System.Console.WriteLine($"Registered {item.name}");
 
                 }
-				Globals.GUI = true;
-				Globals.Canvas = FullScreenCanvas.GetFullScreenCanvas(new Mode (800,600,ColorDepth.ColorDepth32));
-                MouseManager.ScreenWidth = Globals.Canvas.Mode.Width;
-                MouseManager.ScreenHeight = Globals.Canvas.Mode.Height;
+				
+				Globals.Canvas = FullScreenCanvas.GetFullScreenCanvas();
+                
                 Globals.Canvas.Clear(Color.DodgerBlue);
-                Globals.WM = new WindowManager();
-                Widgets.Pointer.Initalise();
-                ProcessManager.RegisterProcess(Globals.WM);
-				Globals.Canvas.Display();
-				Globals.WM.start();
-
-                var win = new FpsWindow();
-                Globals.WM.AppendWindow(win.MainWindow);
-                win.start();
+				Globals.GUI = true;
+				Widgets.Pointer.Initalise();
+				Globals.CGSSurface = new(Globals.Canvas);
+				var wm = new WindowManager();
+                Globals.WM = wm;
+                Memservice service = new();
+                FpsWindow win = new();
+                               
+				
                 
 			}
             catch(Exception e)
             {
                 System.Console.WriteLine(e.ToString());
             }
-
         }
-
-        
-
     }
 }

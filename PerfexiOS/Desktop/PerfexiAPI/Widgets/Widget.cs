@@ -3,15 +3,17 @@ using PerfexiOS.Data.Signal;
 
 using PerfexiOS.Desktop.PerfexiAPI.Windows;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace PerfexiOS.Desktop.PerfexiAPI.Widgets
 {
 	public interface Widget
     {
         public List<Widget> Children { get; set; }
-        public Window RootWindow { get; set; } 
-       
-   
+        public Window RootWindow { get; set; }
+
+
+        public bool MouseEntered { get; set; }
         public virtual void update()
         {
             foreach(var item in Children)
@@ -50,8 +52,8 @@ namespace PerfexiOS.Desktop.PerfexiAPI.Widgets
         /// </summary>
         /// 
 
-        
-        public Signal<MouseArgs> OnKeyTyped { get; set; }
+        public Rectangle Mask { get; set; }
+        public Signal<KeyboardArgs> OnKeyTyped { get; set; }
         /// <summary>
         /// Calls when the mouse is clicked inside the widgets boundry box 
         /// </summary>

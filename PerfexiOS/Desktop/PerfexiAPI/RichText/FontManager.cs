@@ -44,7 +44,6 @@ namespace PerfexiOS.Desktop.PerfexiAPI.RichText
 		public static TTFFont GetFont(string name)
 		{
 			if (fonts.ContainsKey(name)) return fonts[name]; else { return Globals.DefaultFont; }
-
 		}
 	}
 }

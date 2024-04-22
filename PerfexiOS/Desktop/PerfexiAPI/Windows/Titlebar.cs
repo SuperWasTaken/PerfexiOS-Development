@@ -5,7 +5,7 @@ using Cosmos.System.Graphics.Fonts;
 using CosmosTTF;
 using PerfexiOS.Data;
 using PerfexiOS.Data.Signal;
-using PerfexiOS.Desktop.PerfexiAPI.Collision;
+
 using PerfexiOS.Desktop.PerfexiAPI.Widgets;
 using System;
 using System.Collections.Generic;
@@ -21,14 +21,14 @@ namespace PerfexiOS.Desktop.PerfexiAPI.Windows
     {
         Window parent;
         private bool MouseEntered = false;
-        public Polygon Collsion;
+        public Rectangle Collision;
         public Titlebar(Window parent) 
         {
             this.parent = parent;
             OnMouseEnter.Bind(HandleMouseEnter);
             OnCLicked.Bind(HandleMouseInput);
             OnMouseEnter.Bind(HandleMouseEnter);
-            Collsion = Polygon.MakeRectangle(parent.x, parent.y - 32, parent.x + parent.w, parent.y);
+            Collision = new(parent.x, parent.y - 32, parent.w, 32);
         }
 
         /// <summary>
@@ -38,41 +38,30 @@ namespace PerfexiOS.Desktop.PerfexiAPI.Windows
         /// </summary>
         public virtual void Draw()
         {
-            
             Globals.Canvas.DrawFilledRectangle(Color.Blue, parent.x, parent.y - 32, parent.w, 32);
             Globals.Canvas.DrawString(parent.title, PCScreenFont.Default, Color.Black, parent.x+10, parent.y-16);           
         }
         /// <summary>
         ///
         /// </summary>
-        public virtual void Update()
-        {
-            #region MouseCollision
-            if(Pointer.Collision.Colliding(Collsion)) { if (MouseManager.MouseState == MouseState.Left) { Drag(); } }
-            #endregion
-        }
+       
         public void HandleMouseInput(SignalArgs args)
-        {            
-            Drag();
-        }
-
-
-        public void Drag()
         {
-            parent.x = (int)MouseManager.X;
-            parent.y =(int) MouseManager.Y;
-			Collsion = Polygon.MakeRectangle(parent.x, parent.y - 32, parent.x + parent.w, parent.y);
-            Heap.Collect();
+			parent.OnMove.Fire(new());
 		}
+        
 
+       
         public void HandleMouseEnter(MouseArgs args)
         {
             Pointer.State = Pointer.UiMouseStates.Clickable;
+            MouseEntered = true;
         }
 
         public void HandleMouseLeave(MouseArgs args)
         {
             Pointer.State = Pointer.UiMouseStates.Normal;
+            MouseEntered = false;
         }
         public Signal<MouseArgs> OnCLicked = new();
 

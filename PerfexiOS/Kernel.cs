@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Sys = Cosmos.System;
-using PerfexiOS.Data.PINI;
+using PerfexiOS.Data;
 using System.IO;
 using System.Threading;
 using Cosmos.HAL;
@@ -15,21 +15,23 @@ using PerfexiOS.Shell.Commands;
 using Cosmos.System;
 using Cosmos.System.ScanMaps;
 using Cosmos.System.Graphics;
-
+using Cosmos.HAL.Drivers;
 using PerfexiOS.Shell.TaskManager;
 using PerfexiOS.Desktop;
 using COROS;
 using PerfexiOS.Desktop.PerfexiAPI;
 using PINI;
 using Cosmos.HAL.BlockDevice.Ports;
+using Cosmos.HAL.Drivers.USB;
 
-namespace PerfexiOS.Data.PINI
+
+namespace PerfexiOS
 {
     public class Kernel : Sys.Kernel
     {
         public const string version = "HardChair2";
-        
-        bool listeningMode = true;   // Works only 
+		
+		bool listeningMode = true;   // Works only 
         private static commandManager cm;
         public static USStandardLayout us;
         public static US_Dvorak Dvorak;
@@ -43,13 +45,15 @@ namespace PerfexiOS.Data.PINI
 
             try
             {
-
+                
 
                 Globals.Version = version;
                 System.Console.WriteLine($"Perfexi OS {version}");
                 System.Console.WriteLine("Initalising filesystem....");
 				var fs = new CosmosVFS();
 				VFSManager.RegisterVFS(fs);
+                
+                
 				System.Console.WriteLine("Filesystem Initalised...");
                 try
                 {
@@ -62,8 +66,6 @@ namespace PerfexiOS.Data.PINI
 						{
 							var d = new Disk(item);
 							d.Mount();
-							VFSManager.GetDisks().Add(d);
-
 						}
 						catch (Exception e)
 						{
@@ -202,7 +204,7 @@ namespace PerfexiOS.Data.PINI
         {
             try
             {
-                Memservice.Tick();
+                 
                 if(!Globals.GUI && listeningMode)
                 {
                     System.Console.Write($@"{cm.workingdir} @PERFEXI:READY>");
@@ -215,10 +217,10 @@ namespace PerfexiOS.Data.PINI
 
                 if(Globals.GUI)
                 {
-                    
                     ProcessManager.Yeild();
+                    Globals.Canvas.Display();
                     FPS.CountFPS();
-                }
+				}
             }
             catch(Exception ex)
             {
@@ -230,15 +232,18 @@ namespace PerfexiOS.Data.PINI
 
         public static void Crash(Exception e)
         {
-            if(FullScreenCanvas.IsInUse) { Globals.Canvas.Disable(); }
+            if(FullScreenCanvas.IsInUse) { Globals.Canvas.Disable();Globals.GUI = false; }
+            // Kill all the processes in the process manager 
+            
             System.Console.BackgroundColor = System.ConsoleColor.DarkRed;
             System.Console.Clear();
             System.Console.WriteLine("A Problom was detected and PerfexiOS had to shutdown to prevent damage to your system");
             System.Console.WriteLine(e.Message);
-            System.Console.WriteLine("Shutting down in 10 Seconds...");
+            System.Console.WriteLine("Shutting down in 10 seconds");
             Thread.Sleep(10000);
             Sys.Power.Shutdown();
-          
+            
+           
 
         }
         /// <summary>
