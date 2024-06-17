@@ -13,7 +13,7 @@ namespace PerfexiOS.Shell.Commands.Topics.FileSystem
         public rm() : base("rm", "remove file from current directory or path")
         {
         }
-        public override string[] Execute(commandManager parent, string[] args)
+        public override string[] Parse(GearSh parent, string[] args)
         {
             var item = args[0];
 
@@ -26,16 +26,25 @@ namespace PerfexiOS.Shell.Commands.Topics.FileSystem
                 try
                 {
                     File.Delete(item);
-                    return new string[] { $"Sucessfulyl deleted {item}" };
+
+                    parent.Send($"Sucessfulyl deleted {item}");
+                    return new string[] {};
                 }
                 catch(Exception ex)
                 {
-                    return new string[] { $"Failed to delete File {ex.Message}" };
+                    parent.Send($"Failed to delete File {ex.Message}");
+                    return new string[] {};
                 }
             }
-            return new string[] { "File Dosen't Exist" };
-        }
-        
 
-    }
+            parent.Send("File Dosen't Exist");
+            return new string[] { };
+
+		}
+
+	
+		
+
+
+	}
 }

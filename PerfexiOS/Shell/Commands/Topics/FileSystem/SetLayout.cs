@@ -3,6 +3,7 @@ using Cosmos.System.ScanMaps;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,48 +11,58 @@ namespace PerfexiOS.Shell.Commands.Topics.FileSystem
 {
     public class SetLayout : Command
     {
-        public SetLayout() : base("SetLayout","Sets the keyboard layout manualy")
+        public SetLayout() : base("SetLayout", "Sets the keyboard layout manualy")
         {
         }
 
-        public override string[] Execute(commandManager parent, string[] args)
+        public override string[] Parse(GearSh parent, string[] args)
         {
             var layout = args[0];
 
-            switch(layout)
+            switch (layout)
             {
                 case "US":
                     USStandardLayout us = new();
                     KeyboardManager.SetKeyLayout(us);
-                    return new string[] { "Sucessfully changed Keyboard layout to US" };
+                    parent.Send("Sucessfully changed Keyboard layout to US");
+                    return new string[] {};
                 case "DV":
                     US_Dvorak dv = new();
                     KeyboardManager.SetKeyLayout(dv);
-                    return new string[] { "Sucessfully changed Keyboard layout to Dvorak" };
+                    parent.Send("Sucessfully changed Keyboard layout to Dvorak");
+                    return new string[] {};
                 case "GB":
                     GBStandardLayout GB = new();
                     KeyboardManager.SetKeyLayout(GB);
-                    return new string[] { "Sucessfully Changed keyboard layout to British" };
+                    parent.Send("Sucessfully Changed keyboard layout to British");
+                    return new string[] {};
                 case "TR":
                     TRStandardLayout TR = new();
                     KeyboardManager.SetKeyLayout(TR);
-                    return new string[] { "Sucessfully Changed keyboard layout to Turkish" };
+                    parent.Send("Sucessfully Changed keyboard layout to Turkish");
+                    return new string[] {};
                 case "FR":
                     FRStandardLayout FR = new();
                     KeyboardManager.SetKeyLayout(FR);
-                    return new string[] { "Sucessfully Changed keyboard layout to French" };
+                    parent.Send("Sucessfully Changed keyboard layout to French");
+                    return new string[] {};
                 case "ES":
                     ESStandardLayout ES = new();
                     KeyboardManager.SetKeyLayout(ES);
-                    return new string[] { "Sucessfully changed layout to Spanish" };
+                    parent.Send("Sucessfully changed layout to Spanish");
+                    return new string[] {};
                 case "DE":
                     DEStandardLayout DE = new();
                     KeyboardManager.SetKeyLayout(DE);
-                    return new string[] { "Sucessfully changed layout to German" };
+                    parent.Send("Sucessfully changed layout to German");
+                    return new string[] {};
                 default:
-                    return new string[] { "Invalid layout" };
-               
+                    parent.Send("Invalid Layout");
+                    return new string[] {};
+
             }
+            return new string[] { };
         }
+        
     }
 }

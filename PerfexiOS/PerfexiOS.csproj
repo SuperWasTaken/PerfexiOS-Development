@@ -21,44 +21,24 @@
         <CompileVBEMultiboot>False</CompileVBEMultiboot>
         <CompressionType>None</CompressionType>
         <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+        <UseUEFI>True</UseUEFI>
 		
     </PropertyGroup>
 
     <ItemGroup>
-      <None Remove="Desktop\PerfexiAPI\Resources\Applogo.bmp" />
-      <None Remove="Desktop\PerfexiAPI\Resources\LoadingFrame1.bmp" />
-      <None Remove="Desktop\PerfexiAPI\Resources\LoadingFrame2.bmp" />
-      <None Remove="Desktop\PerfexiAPI\Resources\LoadingFrame3.bmp" />
-      <None Remove="Desktop\PerfexiAPI\Resources\LoadingFrame4.bmp" />
-      <None Remove="Desktop\PerfexiAPI\Resources\Mouse.bmp" />
-      <None Remove="Desktop\PerfexiAPI\Resources\MouseCarret.bmp" />
-      <None Remove="Desktop\PerfexiAPI\Resources\MouseHResize.bmp" />
-      <None Remove="Desktop\PerfexiAPI\Resources\MouseMove.bmp" />
-      <None Remove="Desktop\PerfexiAPI\Resources\MouseSelect.bmp" />
-      <None Remove="Desktop\PerfexiAPI\Resources\MouseVResize.bmp" />
-      <None Remove="Desktop\PerfexiAPI\Resources\PerfexiOS.bmp" />
-      <None Remove="Desktop\PerfexiAPI\Resources\prefixilogo.bmp" />
+      <None Remove="PerfexiAPI\Resources\PerfexiOS.png" />
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Include="Desktop\PerfexiAPI\Resources\Applogo.bmp" />
-      <EmbeddedResource Include="Desktop\PerfexiAPI\Resources\LoadingFrame1.bmp" />
-      <EmbeddedResource Include="Desktop\PerfexiAPI\Resources\LoadingFrame2.bmp" />
-      <EmbeddedResource Include="Desktop\PerfexiAPI\Resources\LoadingFrame3.bmp" />
-      <EmbeddedResource Include="Desktop\PerfexiAPI\Resources\LoadingFrame4.bmp" />
-      <EmbeddedResource Include="Desktop\PerfexiAPI\Resources\Mouse.bmp" />
-      <EmbeddedResource Include="Desktop\PerfexiAPI\Resources\MouseCarret.bmp" />
-      <EmbeddedResource Include="Desktop\PerfexiAPI\Resources\MouseHResize.bmp" />
-      <EmbeddedResource Include="Desktop\PerfexiAPI\Resources\MouseMove.bmp" />
-      <EmbeddedResource Include="Desktop\PerfexiAPI\Resources\MouseSelect.bmp" />
-      <EmbeddedResource Include="Desktop\PerfexiAPI\Resources\MouseVResize.bmp" />
-      <EmbeddedResource Include="Desktop\PerfexiAPI\Resources\PerfexiOS.bmp" />
-      <EmbeddedResource Include="Desktop\PerfexiAPI\Resources\prefixilogo.bmp" />
+      <EmbeddedResource Include="PerfexiAPI\Resources\PerfexiOS.png" />
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Cosmos.Build" Version="0-*" NoWarn="NU1604" />
+        <PackageReference Include="Cosmos.Common" Version="0-*" />
+        <PackageReference Include="Cosmos.Core" Version="0.1.0-localbuild20240613095359" />
         <PackageReference Include="Cosmos.Debug.Kernel" Version="0-*" NoWarn="NU1604" />
+        <PackageReference Include="Cosmos.HAL2" Version="0-*" />
         <PackageReference Include="Cosmos.System2" Version="0-*" NoWarn="NU1604" />
         <PackageReference Include="Cosmos.Plugs" Version="0-*" NoWarn="NU1604" />
         <PackageReference Include="CosmosTTF" Version="4.0.1" />
@@ -66,17 +46,11 @@
 
     <ItemGroup>
       <Folder Include="Data\PerfexiScript\" />
-      <Folder Include="Desktop\PerfexiAPI\Languages\PerfexiAnimation\" />
-      <Folder Include="Desktop\PerfexiAPI\Languages\PerfexiFrame\BlockTypes\" />
-      <Folder Include="Desktop\PerfexiAPI\Languages\PerfexiFrame\Tokens\" />
-      <Folder Include="Desktop\PerfexiAPI\Languages\PerfexiScript\Lexar\" />
-      <Folder Include="Desktop\PerfexiAPI\Languages\PerfexiScript\Tokens\" />
-      <Folder Include="Desktop\PerfexiAPI\Languages\Pex\" />
-      <Folder Include="Desktop\PerfexiAPI\Languages\TorchScript\" />
-      <Folder Include="isoFiles\PerfexiOS\SysApps\Installer\Widgets\" />
+      <Folder Include="isoFiles\PerfexiOS\Bootloader\" />
+      <Folder Include="isoFiles\PerfexiOS\InstallFiles\" />
       <Folder Include="isoFiles\PerfexiOS\SysApps\Installer\Scripts\" />
-      <Folder Include="isoFiles\PerfexiOS\UiConf\" />
+      <Folder Include="Shell\BootFiles\Limine\" />
+      <Folder Include="Shell\BootFiles\Kernel\" />
       <Folder Include="Shell\SystemTerminalAPPS\Diskpart\" />
     </ItemGroup>
-
 </Project>

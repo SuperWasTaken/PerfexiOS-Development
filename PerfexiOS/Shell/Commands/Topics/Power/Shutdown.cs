@@ -12,12 +12,11 @@ namespace PerfexiOS.Shell.Commands.Topics.Power
         {
         }
 
-        public override string[] Execute(commandManager parent, string[] args)
+        public override string[] Parse(GearSh parent, string[] args)
         {
-
+            
             Cosmos.System.Power.Shutdown();
-         
-            return new string[] { " " };
+            return new string[] {};
         }
 
     }

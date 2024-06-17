@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PerfexiOS.Data.Pcm
 {
-    public class pcm
+    public class pcmd
     {
         
 
@@ -15,8 +15,8 @@ namespace PerfexiOS.Data.Pcm
 
         ///<summary>
         /// Comming soon.
-        /// A Pcm file is a command file. 
-        /// It Can launch a Lua or Perfexi Script Terminal Application 
+        /// A Pcmd file is a command file. 
+        /// It Can launch a PerfexiScript /TorchScript file 
         /// Or can Manipulate the terminal however you wish
         /// 
         /// </summary>

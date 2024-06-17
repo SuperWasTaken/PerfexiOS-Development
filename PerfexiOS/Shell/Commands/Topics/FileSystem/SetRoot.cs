@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,14 +14,16 @@ namespace PerfexiOS.Shell.Commands.Topics.FileSystem
         {
         }
 
-        public override string[] Execute(commandManager parent, string[] args)
+        public override string[] Parse(GearSh parent, string[] args)
         {
-            if (Directory.Exists($@"{args[0]}PerfexiOS\Sys.pini"))
+            if (File.Exists($@"{args[0]}PerfexiOS\Sys.pin"))
             {
                 Globals.RootPath = $@"{args[0]}";
-                return new string[] { @$"Changed Root Directory Sucessfully to {args[0]}:\" };   
+                parent.Send(@$"Changed Root Directory Sucessfully to {args[0]}:\");
+                
             }
-            return new string[] {"Failed to Change RootDir" };
+            parent.Send("Failed to Change RootDir");
+            return new string[] { };
         }
     }
 }

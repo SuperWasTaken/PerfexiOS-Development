@@ -13,21 +13,26 @@ namespace PerfexiOS.Shell.Commands.Topics.FileSystem
 		{
 		}
 
-		public override string[] Execute(commandManager parent, string[] args)
+		public override string[] Parse(GearSh parent, string[] args)
 		{
 			if (Directory.Exists(@$"{Globals.RootPath}PerfexiOS\Sys.pini"))
 			{
 				try
 				{
 					Globals.Conf = new($@"{args[0]}:\PerfexiOS\Sys.pini");
-					return new string[] { "System Configuration File Loaded Sucessfully" };
+					parent.Send("System Configuration File Loaded Sucessfully");
+					
 				}
 				catch (Exception ex)
 				{
-					return new string[] { "Failed to load System Configuration file", ex.Message };
+					parent.Send("Failed to load System Configuration file " + ex.Message);
+					
 				}
 			}
-			return new string[] { "Syntax Error" };
+			parent.Send("Syntax Error");
+			return new string[] { };
 		}
+
+	
 	}
 }

@@ -1,6 +1,6 @@
+
 SECTION-BOOT
     KEY:BOOTMODE:TER
-    KEY:INSTALLER:TRUE
 END
 SECTION-CONF
     !C: Keyboard Layout
@@ -11,4 +11,10 @@ SECTION-CONF
     !C: Incresing this will increse FPS but it will Clog ram
     !C: 20 is the Reccomended default amount but if it's still too slow try making this number higher 
     KEY:GCD:20
+    !C: System Resulution 
+    KEY:SYSRES:640:480
 END
+SECTION-HARDWARE 
+    
+END 
+

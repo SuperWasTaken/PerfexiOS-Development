@@ -9,11 +9,13 @@ namespace PerfexiOS.Shell.Commands.Topics.FileSystem
 {
     public class cd : Command
     {
+		private GearSh parent;
+		private string[] args; 
         public cd() : base("cd","Change Directory")
         {
         }
 
-        private string GetPreviousDirectory(commandManager parent)
+        private string GetPreviousDirectory(GearSh parent)
         {
             var newdirs = parent.workingdir.Split('/');
 
@@ -29,33 +31,38 @@ namespace PerfexiOS.Shell.Commands.Topics.FileSystem
             }
             return NewPrevDir;
         }
-    
-        public override string[] Execute(commandManager parent, string[] args)
-        {
-            var nextdir = args[0];
 
-            if(nextdir == "..")
-            {
+		public override string[] Parse(GearSh parent, string[] args)
+		{
+			var nextdir = args[0];
 
-                parent.workingdir = GetPreviousDirectory(parent);
-                parent.previousdir = GetPreviousDirectory(parent);
-                return new string[] { "Sucessfully Changed to previous directory" };
-            }
+			if (nextdir == "..")
+			{
 
-            if (!nextdir.Contains(@"\"))
-            {
-                
-                nextdir = $@"{parent.workingdir}{nextdir}\";
-            }
+				parent.workingdir = GetPreviousDirectory(parent);
+				parent.previousdir = GetPreviousDirectory(parent);
 
-            if(Directory.Exists(nextdir)) 
-            {
-                parent.previousdir = parent.workingdir;
-                parent.workingdir = nextdir;
-                return new string[] {$"Sucessfully Changed to {nextdir}" }; 
-            }
-            return new string[] { $"Directory Dosen't exist" };
+				parent.Send("Sucessfully Changed to previous directory");
 
-        }
-    }
+
+			}
+
+			if (!nextdir.Contains(@"\"))
+			{
+
+				nextdir = $@"{parent.workingdir}{nextdir}\";
+			}
+
+			if (Directory.Exists(nextdir))
+			{
+				parent.previousdir = parent.workingdir;
+				parent.workingdir = nextdir;
+
+				parent.Send($"Sucessfully Changed to {nextdir}");
+			}
+			parent.Send("Directory Dosen't exist");
+			parent.ParsingCommand = false;
+			return new string[] { };
+		}
+	}
 }

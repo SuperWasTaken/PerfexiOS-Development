@@ -12,7 +12,7 @@ namespace PerfexiOS.Shell.SystemTerminalAPPS
     public class Diskpart
     {
         bool recivingvalue = false;
-        List<Disk> disks = VFSManager.GetDisks();
+        List<Disk> disks = Globals.fs.GetDisks();
         int pagecount;
         int currentpage;
         public bool running = true;
@@ -36,16 +36,7 @@ namespace PerfexiOS.Shell.SystemTerminalAPPS
        
         public void handlekeytyped()
         {
-            while(running) 
-            {
-                if(!recivingvalue)
-                {
-                    switch(Console.ReadKey())
-                    {
-
-                    }
-                }
-            }
+           
         }
        
         public void DrawDiskPage()

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,18 +15,21 @@ namespace PerfexiOS.Shell.Commands.Topics.FileSystem
 		{
 		}
 
-		public override string[] Execute(commandManager parent, string[] args)
+		public override string[] Parse(GearSh parent, string[] args)
 		{
 			try
 			{
-				if(Directory.Exists(parent.workingdir + args[0]+ @"\")) { return new string[] { "Directory Already Exists" }; }
-				VFSManager.CreateDirectory(parent.workingdir + args[0] + @"\");
-				return new string[] { "Sucessfully created " + args[0] };
+				if(Directory.Exists(parent.workingdir + args[0]+ @"\")) { parent.Send("Diretory Already Exists"); return new string[] {}; }
+				Directory.CreateDirectory(parent.workingdir + args[0] + @"\");
+				parent.Send( "Sucessfully created " + args[0] );
 			}
 			catch(Exception e)
 			{
-				return new string[] { "Failed to make directory", e.Message };
-			} 
+				parent.Send( "Failed to make directory "+ e.Message );
+			}
+			return new string[] { };
 		}
+		
+		
 	}
 }

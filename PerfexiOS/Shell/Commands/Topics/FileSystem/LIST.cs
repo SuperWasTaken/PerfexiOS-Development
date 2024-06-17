@@ -12,7 +12,10 @@ namespace PerfexiOS.Shell.Commands.Topics.FileSystem
         public ls() : base("ls", "List all files in the current directory")
         {
         }
-        public override string[] Execute(commandManager parent,string[] args)
+
+      
+
+        public override string[] Parse(GearSh parent,string[] args)
         {
             var output = new List<string>();
             try
@@ -30,7 +33,14 @@ namespace PerfexiOS.Shell.Commands.Topics.FileSystem
             {
                 output.Add($"Failed to list files: {e.Message}");
             }
-            return output.ToArray();
+            foreach(var item in output)
+            {
+                parent.Send(item);
+            }
+
+            return new string[] { };
         }
-    }
+
+		
+	}
 }

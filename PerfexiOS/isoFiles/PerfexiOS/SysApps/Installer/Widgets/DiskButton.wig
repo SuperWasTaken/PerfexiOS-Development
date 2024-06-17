@@ -1,0 +1,28 @@
+﻿
+WIDGET-DiskButton
+	IMAGE HDDicon = SysRegistry(IconReg.Key("/ICONS/FILESYSTEM/HDD/"))
+	IMAGE CDRicon = SysRegistry(IconReg.Key("/ICON/FILESYTEM/CDR/"))
+	Sys.Disk disk 
+	CONSTRUCTOR(Sys.Disk disk,ButtonContainer parent)
+		WIDTH:parent.Width
+		HEIGHT:32 
+		BGC:white 
+		FGC:Black 
+		FONT:Arial 
+		FONTSIZE:16 
+		POSITION:GetLayout
+	END 
+	RENDER
+		IF-(d.Type == CDR):
+			DrawImage(calc(Padding:10),CDRicon)
+		END 
+		ELSE-IF-(d.Type == HDD):
+			DrawImage(calc(Padding:10),HDDicon)
+		END 
+		ELSE
+			DrawImage(calc(Padding:10),HDDicon)
+		END 
+	END 
+	EVENT.OnClick();
+	END 
+END 

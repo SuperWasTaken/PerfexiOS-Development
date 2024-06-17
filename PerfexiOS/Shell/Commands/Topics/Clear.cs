@@ -12,10 +12,11 @@ namespace PerfexiOS.Shell.Commands.Topics
         {
 
         }
-        public override string[] Execute(commandManager parent, string[] args)
-        {
-            parent.Clear();
-            return base.Execute(parent, args);
-        }
-    }
+		public override string[] Parse(GearSh parent, string[] args)
+		{
+			parent.Clear();
+			return new string[] { };
+		
+		}
+	}
 }

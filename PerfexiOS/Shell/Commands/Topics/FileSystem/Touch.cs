@@ -14,24 +14,24 @@ namespace PerfexiOS.Shell.Commands.Topics.FileSystem
 		{
 		}
 
-		public override string[] Execute(commandManager parent, string[] args)
+		public override string[] Parse(GearSh parent, string[] args)
 		{
 			try
 			{
 				if (File.Exists($@"{parent.workingdir}{args[0]}"))
 				{
-					return new string[] { "Item already exists" };
+					parent.Send("Item Already Exists");
 				}
-
-				VFSManager.CreateFile($@"{parent.workingdir}{args[0]}");
-				return new string[] { $"Created{args[0]} sucessfully." };
-				
+				File.Create($@"{parent.workingdir}{args[0]}");
+				parent.Send($"Created{args[0]} sucessfully.");
 
 			}
 			catch (Exception ex)
 			{
-				return new string[] { "Failed to make file", ex.Message };
+				parent.Send("Failed to make file " + ex.Message);
+
 			}
+			return new string[] {};
 		}
 	}
 
